@@ -4,9 +4,10 @@ import { RefreshCw } from "lucide-react";
 import { getBlasts, syncBlasts } from "../../services/blastApi";
 import { BlastTable } from "./BlastTable";
 
+const EMPTY_BLASTS = [];
+
 export function BlastView({ location, title }) {
   const [filter, setFilter] = useState("");
-  const [syncResult, setSyncResult] = useState(null);
   const queryClient = useQueryClient();
 
   const blastsQuery = useQuery({
@@ -17,15 +18,13 @@ export function BlastView({ location, title }) {
   const syncMutation = useMutation({
     mutationFn: () => syncBlasts(location),
     onSuccess: async (result) => {
-      setSyncResult(result);
-
       if ((result?.created ?? 0) > 0 || (result?.updated ?? 0) > 0) {
         await queryClient.invalidateQueries({ queryKey: ["blasts", location] });
       }
     },
   });
 
-  const rows = blastsQuery.data ?? [];
+  const rows = blastsQuery.data ?? EMPTY_BLASTS;
 
   return (
     <div className="flex h-full min-h-0 flex-col gap-4">

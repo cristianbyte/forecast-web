@@ -50,8 +50,42 @@ export const calculatedFields = [
   "status",
 ];
 
+export const numericFields = [
+  "blastArea",
+  "seamArea",
+  "sterileArea",
+  "designHoles",
+  "realHoles",
+  "designBurden",
+  "designSpacing",
+  "designAreaPerHole",
+  "realAreaPerHole",
+  "holeAreaDifference",
+  "blastAreaDifference",
+  "designAverageLength",
+  "realAverageLength",
+  "averageLengthDifference",
+  "totalDesignDrilledMeters",
+  "totalRealDrilledMeters",
+  "drilledMetersDifference",
+  "designBlastVolumeWithoutSeams",
+  "realBlastVolumeWithoutSeams",
+  "designEmulsion",
+  "p337",
+  "ikon15m",
+  "realEmulsion",
+  "omcAverageLength",
+  "aycOmcDifference",
+  "omcSterileCubicMeters",
+  "omcCoalCubicMeters",
+  "omcTotalCubicMeters",
+  "omcSterileChargeFactor",
+  "omcAycTotalVolumeDifference",
+  "opitBlastChargeFactor",
+  "realAycChargeFactor",
+];
+
 export const visibleBlastFields = [
-  "location",
   "subLocation",
   "date",
   "period",
@@ -144,4 +178,8 @@ export const fieldLabels = {
 
 export function isEditableField(field) {
   return editableFields.includes(field);
+}
+
+export function isNumericField(field) {
+  return numericFields.includes(field);
 }
