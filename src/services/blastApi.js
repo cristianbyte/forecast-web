@@ -58,8 +58,8 @@ function normalizeRows(payload) {
   return [];
 }
 
-export async function getBlasts(location) {
-  const params = new URLSearchParams({ location });
+export async function getBlasts(location, period) {
+  const params = new URLSearchParams({ location, period });
   const payload = await request(`/api/blasts?${params.toString()}`);
   return normalizeRows(payload);
 }

@@ -1,4 +1,4 @@
-import { useCallback, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 
 export const USER_PREFERENCE_KEYS = {
   blastTableColumnSizing: "blast-table-column-sizing",
@@ -6,9 +6,14 @@ export const USER_PREFERENCE_KEYS = {
 };
 
 const STORAGE_KEY_PREFIX = "forecast";
+const USER_PREFERENCE_CHANGE_EVENT = "forecast:user-preference-change";
 
 function getPreferenceStorageKey(preferenceKey, scope) {
   return [STORAGE_KEY_PREFIX, preferenceKey, scope].filter(Boolean).join(":");
+}
+
+function isSamePreference(preferenceDetail, preferenceKey, scope) {
+  return preferenceDetail?.preferenceKey === preferenceKey && preferenceDetail?.scope === scope;
 }
 
 function getDefaultPreferenceValue(defaultValue) {
@@ -38,6 +43,12 @@ export function writeUserPreference(preferenceKey, preferenceValue, scope) {
   } catch {
     // Keep the UI usable if localStorage is unavailable or full.
   }
+
+  window.dispatchEvent(
+    new CustomEvent(USER_PREFERENCE_CHANGE_EVENT, {
+      detail: { preferenceKey, preferenceValue, scope },
+    }),
+  );
 }
 
 export function useUserPreference(preferenceKey, defaultValue, scope) {
@@ -70,6 +81,40 @@ export function useUserPreference(preferenceKey, defaultValue, scope) {
     },
     [defaultValue, preferenceKey, scope],
   );
+
+  useEffect(() => {
+    function updatePreferenceFromEvent(event) {
+      if (!isSamePreference(event.detail, preferenceKey, scope)) {
+        return;
+      }
+
+      setPreferenceState({
+        preferenceKey,
+        scope,
+        preferenceValue: event.detail.preferenceValue,
+      });
+    }
+
+    function updatePreferenceFromStorage(event) {
+      if (event.key !== getPreferenceStorageKey(preferenceKey, scope)) {
+        return;
+      }
+
+      setPreferenceState({
+        preferenceKey,
+        scope,
+        preferenceValue: readUserPreference(preferenceKey, defaultValue, scope),
+      });
+    }
+
+    window.addEventListener(USER_PREFERENCE_CHANGE_EVENT, updatePreferenceFromEvent);
+    window.addEventListener("storage", updatePreferenceFromStorage);
+
+    return () => {
+      window.removeEventListener(USER_PREFERENCE_CHANGE_EVENT, updatePreferenceFromEvent);
+      window.removeEventListener("storage", updatePreferenceFromStorage);
+    };
+  }, [defaultValue, preferenceKey, scope]);
 
   return [preferenceValue, updatePreferenceValue];
 }

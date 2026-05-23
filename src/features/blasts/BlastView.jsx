@@ -2,22 +2,28 @@ import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { RefreshCw } from "lucide-react";
 import { getBlasts, syncBlasts } from "../../services/blastApi";
 import { BlastGroupedTables } from "./BlastGroupedTables";
+import { getCurrentPeriod } from "../../utils/period";
+import { USER_PREFERENCE_KEYS, useUserPreference } from "../../utils/userPreferences";
 
 const EMPTY_BLASTS = [];
 
 export function BlastView({ location, title }) {
   const queryClient = useQueryClient();
+  const [selectedPeriod] = useUserPreference(
+    USER_PREFERENCE_KEYS.selectedPeriod,
+    getCurrentPeriod,
+  );
 
   const blastsQuery = useQuery({
-    queryKey: ["blasts", location],
-    queryFn: () => getBlasts(location),
+    queryKey: ["blasts", location, selectedPeriod],
+    queryFn: () => getBlasts(location, selectedPeriod),
   });
 
   const syncMutation = useMutation({
     mutationFn: () => syncBlasts(location),
     onSuccess: async (result) => {
       if ((result?.created ?? 0) > 0 || (result?.updated ?? 0) > 0) {
-        await queryClient.invalidateQueries({ queryKey: ["blasts", location] });
+        await queryClient.invalidateQueries({ queryKey: ["blasts", location, selectedPeriod] });
       }
     },
   });
