@@ -37,7 +37,7 @@ function getFieldSummary(summaryMap, period, field) {
 }
 
 export function BlastGroupedTables({ blasts, location }) {
-  const [columnSizing, setColumnSizing] = useBlastTableColumnSizing(location);
+  const [columnSizing, setColumnSizing] = useBlastTableColumnSizing();
   const [collapsedGroupIds, setCollapsedGroupIds] = useState({});
   const periods = useMemo(() => getUniquePeriods(blasts), [blasts]);
 

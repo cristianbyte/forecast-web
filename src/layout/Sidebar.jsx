@@ -1,5 +1,13 @@
 import { NavLink } from "react-router-dom";
-import { BarChart3, ChevronLeft, ChevronRight, Fuel, Landmark, MapPinned, Scale } from "lucide-react";
+import {
+  BarChart3,
+  ChevronLeft,
+  ChevronRight,
+  Fuel,
+  Landmark,
+  MapPinned,
+  Scale,
+} from "lucide-react";
 
 const navigation = [
   { to: "/voladuras/hs", label: "Voladura HS", icon: MapPinned },
@@ -23,8 +31,7 @@ export function Sidebar({ collapsed, onToggle }) {
             Forecast
           </span>
         )}
-      </div>
-
+      </div>{" "}
       <nav className="flex flex-1 flex-col gap-1 px-2 py-3">
         {navigation.map((item) => {
           const Icon = item.icon;
@@ -43,12 +50,13 @@ export function Sidebar({ collapsed, onToggle }) {
               to={item.to}
             >
               <Icon className="shrink-0" size={16} />
-              {collapsed ? null : <span className="truncate">{item.label}</span>}
+              {collapsed ? null : (
+                <span className="truncate">{item.label}</span>
+              )}
             </NavLink>
           );
         })}
       </nav>
-
       <button
         className="flex h-11 items-center justify-center border-t border-[var(--border-subtle)] text-[var(--text-faint)] hover:text-[var(--text-primary)]"
         type="button"

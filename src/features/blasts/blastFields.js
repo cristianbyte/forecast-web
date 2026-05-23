@@ -133,7 +133,7 @@ export const visibleBlastFields = [
 export const fieldLabels = {
   location: "ubicacion",
   subLocation: "sub ubicacion",
-  date: "Fecha",
+  date: "Día voladura",
   period: "Periodo",
   status: "Estado",
   blastCode: "Voladura",
