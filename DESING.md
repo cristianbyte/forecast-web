@@ -219,6 +219,7 @@ hover: bg-surface-hover
 ## Rules
 
 - Fonts: `medium` and `bold` only.
+- Icons: use `lucide-react` only; do not create inline SVG icons.
 - Shadows: none — borders only.
 - Gradients: none.
 - Dark mode: never.

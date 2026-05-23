@@ -131,8 +131,8 @@ export const visibleBlastFields = [
 ];
 
 export const fieldLabels = {
-  location: "Ubicacion",
-  subLocation: "Sububicacion",
+  location: "ubicacion externa",
+  subLocation: "ubicacion",
   date: "Fecha",
   period: "Periodo",
   status: "Estado",

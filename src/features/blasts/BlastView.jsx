@@ -1,13 +1,11 @@
-import { useState } from "react";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { RefreshCw } from "lucide-react";
 import { getBlasts, syncBlasts } from "../../services/blastApi";
-import { BlastTable } from "./BlastTable";
+import { BlastGroupedTables } from "./BlastGroupedTables";
 
 const EMPTY_BLASTS = [];
 
 export function BlastView({ location, title }) {
-  const [filter, setFilter] = useState("");
   const queryClient = useQueryClient();
 
   const blastsQuery = useQuery({
@@ -59,7 +57,7 @@ export function BlastView({ location, title }) {
         </div>
       ) : null}
 
-      <BlastTable data={rows} filter={filter} onFilterChange={setFilter} />
+      <BlastGroupedTables blasts={rows} />
     </div>
   );
 }

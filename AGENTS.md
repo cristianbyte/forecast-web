@@ -17,3 +17,7 @@
 - Tailwind is v4 via `@tailwindcss/vite` in `vite.config.js`; styles enter through `@import "tailwindcss"` in `src/index.css`, with no `tailwind.config.*` file.
 - ESLint uses flat config in `eslint.config.js`, applies to `**/*.{js,jsx}`, and only ignores `dist/`.
 - `src/index.css` defines the app design tokens as CSS custom properties; preserve them when adding UI styles.
+
+## Design Notes
+- Follow `DESING.md` for UI decisions.
+- Use `lucide-react` for icons. Do not create inline SVG icons.
