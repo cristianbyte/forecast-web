@@ -1,7 +1,8 @@
 import { Menu, Settings } from "lucide-react";
 
 function StatusDot({ tone }) {
-  const color = tone === "ok" ? "bg-[var(--color-ok)]" : "bg-[var(--color-danger)]";
+  const color =
+    tone === "ok" ? "bg-[var(--color-ok)]" : "bg-[var(--color-danger)]";
   return <span className={`h-2 w-2 rounded-[var(--radius-pill)] ${color}`} />;
 }
 
@@ -20,10 +21,8 @@ export function Topbar({ onMenuClick }) {
       <div className="flex items-center gap-4 text-[11px] font-bold uppercase tracking-wider text-[var(--text-muted)]">
         <span className="inline-flex items-center gap-2">
           <StatusDot tone="ok" />
-          Conectado
+          <span>Online</span>
         </span>
-        <span>Estado: operativo</span>
-        <span>Cambios guardados</span>
         <span>Sincronizado</span>
         <button
           className="inline-flex h-8 w-8 items-center justify-center rounded-[var(--radius-input)] text-[var(--text-muted)] hover:bg-[var(--surface-hover)] hover:text-[var(--text-primary)]"

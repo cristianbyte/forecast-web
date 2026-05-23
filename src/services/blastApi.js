@@ -1,12 +1,16 @@
 const API_BASE_URL = import.meta.env.VITE_API_BASE_URL ?? "http://localhost:8080";
 
-async function request(path, options = {}) {
+async function request(path, options = {}, requestOptions = {}) {
   const response = await fetch(`${API_BASE_URL}${path}`, {
     headers: { "Content-Type": "application/json", ...options.headers },
     ...options,
   });
 
   if (!response.ok) {
+    if (requestOptions.allowNotFound && response.status === 404) {
+      return null;
+    }
+
     const body = await response.text();
     let parsedBody;
 
@@ -63,4 +67,20 @@ export async function getBlasts(location) {
 export function syncBlasts(location) {
   const params = new URLSearchParams({ location });
   return request(`/api/blasts/sync?${params.toString()}`, { method: "POST" });
+}
+
+export async function getBlastPeriodFieldSummaries(location, periods) {
+  const params = new URLSearchParams({ location });
+
+  periods.forEach((period) => {
+    params.append("period", period);
+  });
+
+  const payload = await request(
+    `/api/blasts/field-summaries?${params.toString()}`,
+    {},
+    { allowNotFound: true },
+  );
+
+  return normalizeRows(payload);
 }

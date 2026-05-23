@@ -2,7 +2,7 @@ export const blastFieldGroups = [
   {
     id: "general",
     title: "General",
-    fields: ["blastCode", "ubicacion", "date", "period"],
+    fields: ["blastCode", "subLocation", "date", "period"],
   },
   {
     id: "topography",

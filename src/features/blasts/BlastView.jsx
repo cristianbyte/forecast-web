@@ -57,7 +57,7 @@ export function BlastView({ location, title }) {
         </div>
       ) : null}
 
-      <BlastGroupedTables blasts={rows} />
+      <BlastGroupedTables blasts={rows} location={location} />
     </div>
   );
 }
